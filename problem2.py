@@ -58,7 +58,8 @@ def main():
     plt.show()            
 
 
-# JUST FOR TEST
+# JUST FOR TESTING 
+
 if __name__ == "__main__":
     main()
-    
+    DUMMY = 123     
