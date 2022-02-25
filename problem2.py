@@ -6,6 +6,7 @@ from matplotlib import pyplot as plt
 # a, b, u, v = sym.symbols("a b u v")
 # sol = sym.solve([a - (b+1)*u + (u**2)*v, b*u - (u**2)*v], (u, v))
 # print(sol)
+
 def disc_lap(f, x, y):
     L = len(f[:, 0])
     return f[(x + 1) % L, y] + f[(x - 1) % L, y] + f[x, (y + 1) % L] + f[x, (y - 1) % L] - 4*f[x, y]
@@ -30,36 +31,38 @@ def main():
     b = 8
     Du = 1
     Dv_vec = [2.3, 3, 5, 9]
-    Dv = 2.3
+    # Dv = 3
     L = 128
     t_max = 100
     dt = 0.01
 
 
     # plt.figure()
-
-    u_grid = (1.1*a - 0.9*a) * np.random.rand(L, L) + 0.9*a
-    v_grid = (1.1*b/a - 0.9*b/a) * np.random.rand(L, L) + 0.9*b/a
-    
-    for iter in range(int(t_max/dt)):
-        # if iter % 1000 == 0:
-        #     plt.imshow(u_grid)
-        #     plt.title(f"{Dv=} at iteration: {iter}, t = {iter*dt}")
-        #     plt.show()
+    for ind, Dv in enumerate(Dv_vec):
+        u_grid = (1.1*a - 0.9*a) * np.random.rand(L, L) + 0.9*a
+        v_grid = (1.1*b/a - 0.9*b/a) * np.random.rand(L, L) + 0.9*b/a
         
-        for x in range(L):
-            for y in range(L):
-                updated_u, updated_v = eom(u_grid, v_grid, x, y, dt, a, b, Du, Dv)
-                u_grid[x,y] = updated_u
-                v_grid[x,y] = updated_v
+        for iter in range(int(t_max/dt)):
+            # if iter % 1000 == 0:
+            #     plt.imshow(u_grid)
+            #     plt.title(f"{Dv=} at iteration: {iter}, t = {iter*dt}")
+            #     plt.show()
+            
+            for x in range(L):
+                for y in range(L):
+                    updated_u, updated_v = eom(u_grid, v_grid, x, y, dt, a, b, Du, Dv)
+                    u_grid[x,y] = updated_u
+                    v_grid[x,y] = updated_v
 
-    plt.imshow(u_grid)
-    plt.title(f"{Dv=} at iteration: {iter}, t = {iter*dt}")
-    plt.show()            
+       
+        plt.imshow(u_grid)
+        plt.title(f"{Dv=} at iteration: {iter}, t = {iter*dt}")
+        fileName = f"Dv{ind}_long"
+        plt.savefig(fileName)          
 
 
 # JUST FOR TESTING 
 
 if __name__ == "__main__":
     main()
-    DUMMY = 124
+  
