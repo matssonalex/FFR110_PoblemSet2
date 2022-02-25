@@ -47,7 +47,7 @@ def eom(u, i, tau):
 
 
 def estimate_velocity(u, t):
-    ind = np.where(np.abs(u[24, t] - u[22,:]) < 1e-3)[0][0]
+    ind = np.where(np.abs(u[24, t] - u[34,:]) < 1e-3)[0][0]
     v = 1 / (dt * (ind-t))
     return v
 
@@ -72,21 +72,25 @@ def run_dynamics(xi0, u0, init_func):
 
 
 def b_plot(u, derivative_estimate, T):
-    # t_vec = np.linspace(0, np.shape(u)[1]-1, 20)
+    t_vec = np.linspace(0, np.shape(u)[1]-1, 20)
     # # # t_vec = [1000, 2000]
-    # for t in t_vec:
-    #     plt.plot(xi, u[:, int(t)])
-    plt.subplot(121)
-    plt.plot(xi, u[:, T])
-    plt.xlabel(r'$\xi$')
-    plt.ylabel('u')
+    for t in t_vec:
+        plt.plot(xi, u[:, int(t)])
+        plt.xlabel(r'$\xi$')
+        plt.ylabel('u')
+    
+    plt.title(f'Case iii')
+    # plt.subplot(121)
+    # plt.plot(xi, u[:, T])
+    # plt.xlabel(r'$\xi$')
+    # plt.ylabel('u')
 
-    plt.subplot(122)
-    plt.plot(derivative_estimate, u[:-1, T], 'b.')
-    plt.xlabel(r'$\frac{du}{d\xi}$')
-    plt.ylabel("u")
+    # plt.subplot(122)
+    # plt.plot(derivative_estimate, u[:-1, T], 'b.')
+    # plt.xlabel(r'$\frac{du}{d\xi}$')
+    # plt.ylabel("u")
 
-    plt.suptitle(f"Travelling wave at t = {T*dt}")
+    # plt.suptitle(f"Travelling wave at t = {T*dt}")
 
 
 
@@ -113,7 +117,9 @@ u_star_val = find_steady_states(q_val, rho) #u1 = u_star_val[2], u2 = u_star_val
 print(u_star_val)
 
 T = 1000
-u_b = run_dynamics(50, 1.1*u_star_val[1], 1)    #t=1000, xi0= 20, 50, 50 u0 = u1, u2, u2*1.1
+xi0 = 50
+u0 = u_star_val[1]*1.1
+u_b = run_dynamics(xi0, u0, 1)    #t=1000, xi0= 20, 50, 50 u0 = u1, u2, u2*1.1
 
 # v_estimate = estimate_velocity(u_b, T) # only works if u is a travelling wave
 # print(v_estimate)
