@@ -58,6 +58,7 @@ def main():
     plt.show()            
 
 
+# JUST FOR TEST
 if __name__ == "__main__":
     main()
     

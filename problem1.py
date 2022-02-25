@@ -64,8 +64,6 @@ def run_dynamics(xi0, u0, init_func):
             u[i_xi, tau + 1] =  eom(u, i_xi, tau)
     
     # take care of boundaries, always same
-        
-
     return u
 
 
