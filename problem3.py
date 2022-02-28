@@ -4,52 +4,85 @@ import matplotlib.pyplot as plt
 from scipy import stats
 
 
-def circle(vector):
-    x = []
-    y = []
-    for angle in vector:
-        x.append(np.cos(angle))
-        y.append(np.sin(angle))
-    plt.scatter(x, y)
-    # plt.axes().set_plt.aspect( 1 )
-    #plt.show()
-
-
-gamma = 0.5
+gamma = 0.1
 K_c = 2*gamma
-K = [K_c-0.1, K_c+0.01, K_c+0.1]
-K = K[2]
+Ks = [0.01, (K_c+0.01), (K_c+2)]
 N = 300
-theta = np.random.uniform(-np.pi/2, np.pi/2, size=N)
-# omega = np.random.standard_cauchy(size=N)
-omega = stats.cauchy.rvs(loc=0, scale=gamma, size=N)
+theta_0 = np.random.uniform(-np.pi/2, np.pi/2, size=(3, N))
+theta = theta_0.copy()
+omega = stats.cauchy.rvs(loc=0, scale=gamma, size=(3, N))
 T = 100
 dt = 0.1
-r = np.zeros(int(T/dt))
-t = np.linspace(0, T, int(T/dt))
+r = np.zeros((3, int(T/dt)))
+t_vec = np.linspace(0, T, int(T/dt))
+
+for k, a in enumerate(Ks):
+    for t in range(int(T/dt)):
+        for i in range(N):
+            theta[k, i] += dt*(omega[k, i] + (a * np.sum(np.sin(theta[k, :] - theta[k, i]))/N))
+
+        r[k, t] = np.abs(np.sum(np.exp(1j*theta[k, :]))/N)
 
 
-for j in range(int(T/dt)):
-    r[j] = abs(np.sum(np.exp(theta * 1j)) / N)
-    for i in range(N):
-        #r[j] = np.abs(np.sum(np.exp(theta)))
-
-        theta[i] += dt*(omega[i] + ((K/N) * np.sum(np.sin(theta - theta[i])))) 
-        # theta[i] += dt * (omega[i] + (K*r[j]*(np.mean(np.sin(theta - theta[i])))))
-        if theta[i] < 0:
-            theta[i] = theta[i] % (-2*np.pi)
-        else:
-            theta[i] = theta[i] % (2*np.pi)
-
-    # temp = np.sum(theta[0] - theta[1:])
-    # r[j] = sum([(np.exp(1j * i)) for i in theta])
-    # r[j] = abs(r[j] / N)
-    
-    r1 = abs(np.mean(np.exp(theta * 1j)))
-    # r[j] = np.sqrt(1 + np.cos(np.sum(theta[0] - theta)))
-    # r[j] = np.linalg.norm([(np.sum(np.cos(theta)) / N), (np.sum(np.sin(theta)) / N)])
-#circle(theta)
-# temp = np.sqrt((K - K_c) / K_c)
-# print(temp)
-plt.plot(t, r)
+plt.subplot(331)
+plt.title(f'Order parameter, K={Ks[0]}, N={N}')
+plt.plot(t_vec, r[0, :])
+plt.xlabel('t')
+plt.ylabel('r')
+plt.ylim([0, 1])
+plt.subplot(332)
+plt.title(f'Oscillators at time={T}, dt={dt}')
+plt.plot(np.cos(theta[0, :]), np.sin(theta[0, :]), 'o', markersize=2)
+plt.xlabel(r'$ cos(\Theta) $')
+plt.ylabel(r'$ sin(\Theta) $')
+plt.xlim([-1, 1])
+plt.ylim([-1, 1])
+plt.subplot(333)
+plt.title('Oscillators at time=0')
+plt.plot(np.cos(theta_0[0, :]), np.sin(theta_0[0, :]), 'o', markersize=2)
+plt.xlabel(r'$ cos(\Theta) $')
+plt.ylabel(r'$ sin(\Theta) $')
+plt.xlim([-1, 1])
+plt.ylim([-1, 1])
+plt.subplot(334)
+plt.title(f'Order parameter, K={0.21}, N={N}')
+plt.plot(t_vec, r[1, :])
+plt.xlabel('t')
+plt.ylabel('r')
+plt.ylim([0, 1])
+plt.subplot(335)
+plt.title(f'Oscillators at time={T}, dt={dt}')
+plt.plot(np.cos(theta[1, :]), np.sin(theta[1, :]), 'o', markersize=2)
+plt.xlabel(r'$ cos(\Theta) $')
+plt.ylabel(r'$ sin(\Theta) $')
+plt.xlim([-1, 1])
+plt.ylim([-1, 1])
+plt.subplot(336)
+plt.title('Oscillators at time=0')
+plt.plot(np.cos(theta_0[1, :]), np.sin(theta_0[1, :]), 'o', markersize=2)
+plt.xlabel(r'$ cos(\Theta) $')
+plt.ylabel(r'$ sin(\Theta) $')
+plt.xlim([-1, 1])
+plt.ylim([-1, 1])
+plt.subplot(337)
+plt.title(f'Order parameter, K={Ks[2]}, N={N}')
+plt.plot(t_vec, r[2, :])
+plt.xlabel('t')
+plt.ylabel('r')
+plt.ylim([0, 1])
+plt.subplot(338)
+plt.title(f'Oscillators at time={T}, dt={dt}')
+plt.plot(np.cos(theta[2, :]), np.sin(theta[2, :]), 'o', markersize=2)
+plt.xlabel(r'$ cos(\Theta) $')
+plt.ylabel(r'$ sin(\Theta) $')
+plt.xlim([-1, 1])
+plt.ylim([-1, 1])
+plt.subplot(339)
+plt.title('Oscillators at time=0')
+plt.plot(np.cos(theta_0[2, :]), np.sin(theta_0[2, :]), 'o', markersize=2)
+plt.xlabel(r'$ cos(\Theta) $')
+plt.ylabel(r'$ sin(\Theta) $')
+plt.xlim([-1, 1])
+plt.ylim([-1, 1])
+plt.tight_layout(pad=0, w_pad=-0.8, h_pad=-0.5)
 plt.show()
