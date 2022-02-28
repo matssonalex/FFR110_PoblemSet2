@@ -44,25 +44,25 @@ def main():
     
     # for ind, Dv in enumerate(Dv_vec):
 
-        u_grid = (1.1*a - 0.9*a) * np.random.rand(L, L) + 0.9*a
-        v_grid = (1.1*b/a - 0.9*b/a) * np.random.rand(L, L) + 0.9*b/a
+    u_grid = (1.1*a - 0.9*a) * np.random.rand(L, L) + 0.9*a
+    v_grid = (1.1*b/a - 0.9*b/a) * np.random.rand(L, L) + 0.9*b/a
     Dv = 5
     # ax1 = fig1.add_subplot(2, 2, ind + 1)
     # im1 = ax1.imshow(u_grid, cmap="viridis", vmin=0, vmax=12)
     # fig1.colorbar(im1)
-        
+
     for iter in range(int(t_max/dt)+1):
         
         if iter % 2500 == 0:
             print(f"{Dv=}, {iter=} of {int(t_max/dt)}")
-            
-            for x in range(L):
-                for y in range(L):
-                    updated_u, updated_v = eom(u_grid, v_grid, x, y, dt, a, b, Du, Dv)
-                    u_grid[x,y] = updated_u
-                    v_grid[x,y] = updated_v
+        
+        for x in range(L):
+            for y in range(L):
+                updated_u, updated_v = eom(u_grid, v_grid, x, y, dt, a, b, Du, Dv)
+                u_grid[x,y] = updated_u
+                v_grid[x,y] = updated_v
 
-       
+    
         # if iter == 10:
         #     ax1.imshow(u_grid, cmap="viridis", vmin=0, vmax=12, interpolation="nearest")
         #     ax1.set_title(f"{Dv=} at {iter=}")
@@ -77,8 +77,8 @@ def main():
     # ax2.set_title(f"{Dv=} at {iter=}")
     # ax2.set_axis_off()
     # fig2.tight_layout()
-        plt.imshow(u_grid)
-        plt.title(f"{Dv=} at iteration: {iter}, t = {iter*dt}")
+    plt.imshow(u_grid)
+    plt.title(f"{Dv=} at iteration: {iter}, t = {iter*dt}")
     # fileName = f"Dv{ind}_long"
     # plt.savefig(fileName)
 
