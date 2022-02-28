@@ -5,8 +5,8 @@ from scipy import stats
 
 gamma = 0.1
 K_c = 2*gamma
-Ks = [0.01, (K_c+0.01), (K_c+2)]
-N = 300
+Ks = [0.01, (K_c+0.01), (K_c + 2)]
+N = 100
 theta_0 = np.random.uniform(-np.pi/2, np.pi/2, size=(3, N))
 theta = theta_0.copy()
 omega = stats.cauchy.rvs(loc=0, scale=gamma, size=(3, N))
