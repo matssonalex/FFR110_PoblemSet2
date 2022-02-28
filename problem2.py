@@ -56,7 +56,7 @@ def main():
 
        
         plt.imshow(u_grid)
-        plt.title(f"{Dv=} at iteration: {iter}, t = {iter*dt}")
+        #plt.title(f"{Dv=} at iteration: {iter}, t = {iter*dt}")
         fileName = f"Dv{ind}_long"
         plt.savefig(fileName)          
 
