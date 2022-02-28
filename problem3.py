@@ -3,17 +3,6 @@ import matplotlib.pyplot as plt
 from scipy import stats
 
 
-def circle(vector):
-    x = []
-    y = []
-    for angle in vector:
-        x.append(np.cos(angle))
-        y.append(np.sin(angle))
-    plt.scatter(x, y)
-    plt.axes().set_aspect( 1 )
-    plt.show()
-
-
 gamma = 0.1
 K_c = 2*gamma
 Ks = [(K_c-0.5), (K_c+0.01), (K_c+2)]
