@@ -34,7 +34,7 @@ def func(u, rho, q_val, i, tau):
     if i == 0 or i == 99:
         return rho * u[i, tau] * (1 - (u[i, tau] / q_val)) - (u[i, tau] / (1 + u[i, tau]))
     else:
-        return rho * u[i, tau] * (1 - (u[i, tau] / q_val)) - (u[i, tau] / (1 + u[i, tau])) + u[i + 1, tau] + u[i - 1, tau] - 2*u[i, tau]
+        return rho * u[i, tau] * (1 - (u[i, tau] / q_val)) - (u[i, tau] / (1 + u[i, tau]))+ u[i + 1, tau] + u[i - 1, tau] - 2*u[i, tau]
 
 
 def eom(u, dt, rho, q_val, i, tau):
@@ -125,7 +125,7 @@ def main(alt, dyn):
         T = [1000, 1000, 5000]
         xi0 = [20, 50, 50]
         u0 = [u_star_val[2], u_star_val[1], 1.1*u_star_val[1]]
-        u_b = run_dynamics(xi0[alt], u0[alt], rho, q_val, dt, t_max, L, "ramp")    #t=1000, xi0= 20, 50, 50 u0 = u1, u2, u2*1.1
+        u_b = run_dynamics(xi0[alt], u0[alt], rho, q_val, dt, t_max, L, "ramp")  #t=1000, xi0= 20, 50, 50 u0 = u1, u2, u2*1.1
 
         v_estimate = estimate_velocity(u_b, dt, T[alt], alt) # only works if u is a travelling wave
         print(f"Wave velocity = {v_estimate}")
